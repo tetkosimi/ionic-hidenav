@@ -1,26 +1,35 @@
 {
-  "name": "ionic4-hidenav",
-  "version": "1.0.0",
+  "name": "ionic-hidenav",
+  "version": "5.0.0",
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+    "@angular/common": "^9.0.0 || ^10.0.0",
+    "@angular/core": "^9.0.0 || ^10.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/heidji/ionic4-hidenav.git"
+    "url": "git+https://github.com/almothafar/ionic-hidenav.git"
   },
   "keywords": [],
-  "author": "Hossam El-Nadi",
+  "author": "Al-Mothafar Al-Hasan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/heidji/ionic4-hidenav/issues"
+    "url": "https://github.com/almothafar/ionic-hidenav/issues"
   },
-  "homepage": "https://github.com/heidji/ionic4-hidenav#readme",
+  "homepage": "https://github.com/almothafar/ionic-hidenav#readme",
   "dependencies": {
-    "jquery": "^3.5.0",
-    "@ionic-super-tabs/angular": "^6.1.2"
+    "jquery": "^3.5.1",
+    "@ionic-super-tabs/angular": "^7.0.8"
   },
   "devDependencies": {
-    "@ionic/angular": "^4.0.0"
+    "@angular/core": "latest",
+    "@angular/common": "latest",
+    "@angular/forms": "latest",
+    "@angular/platform-browser": "latest",
+    "@angular/platform-browser-dynamic": "latest",
+    "@angular/router": "latest",
+    "@ionic/angular": "^5.3.4",
+    "codelyzer": "^6.0.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.0.3"
   }
 }

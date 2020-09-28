@@ -1,4 +1,4 @@
-# Hide Navigation Bar for Ionic 4
+# Hide Navigation Bar for Ionic 5+
 
 [![NPM version][npm-image]][npm-url]
 
@@ -21,7 +21,7 @@ _This plugin is also made as generic as possible, making it maybe a bit harder t
 ## Installation
 
 ```
-npm i ionic4-hidenav
+npm i @almothafar/ionic-hidenav
 ```
 
 ## Implementation
@@ -30,7 +30,7 @@ Create (or modify if you already have) a **shared.module.ts** in your project ro
 
 ```typescript
 import { NgModule } from '@angular/core';
-import {HidenavModule} from 'ionic4-hidenav';
+import { HidenavModule } from '@almothafar/ionic-hidenav';
 
 @NgModule({
     imports: [HidenavModule],
@@ -49,7 +49,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { HomePage } from './home.page';
-import {SharedModule} from '../shared.module';
+import { SharedModule } from '../shared.module';
 
 const routes: Routes = [
     {
@@ -194,6 +194,6 @@ As for the `<ion-content>` elements in each of the tabs give them the `hidenav-c
 
 **PS**.: as mentioned in the beginning, you should not use both methods (Part1 and Part2) together on one page. It was never tested and is not intended to be used.
 
-[npm-url]: https://npmjs.org/package/ionic4-hidenav
+[npm-url]: https://npmjs.org/package/@almothafar/ionic-hidenav
 [npm-image]: https://img.shields.io/badge/npm-1.0.0-green.svg
  
