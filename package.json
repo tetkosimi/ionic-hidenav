@@ -1,5 +1,5 @@
 {
-  "name": "ionic-hidenav",
+  "name": "@almothafar/ionic-hidenav",
   "version": "5.0.0",
   "peerDependencies": {
     "@angular/common": "^9.0.0 || ^10.0.0",
