@@ -20,8 +20,10 @@
     ],
     "paths": {
       "ionic-hidenav": [
-        "dist/ionic-hidenav/ionic-hidenav",
-        "dist/ionic-hidenav"
+        "dist"
+      ],
+      "ionic-hidenav/*": [
+        "dist/*"
       ]
     }
   },

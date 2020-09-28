@@ -3,5 +3,9 @@
   "dest": "./dist/hidenav",
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "jquery",
+    "@ionic-super-tabs/angular"
+  ]
 }

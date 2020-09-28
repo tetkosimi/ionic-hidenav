@@ -1,10 +1,10 @@
 # Hide Navigation Bar for Ionic 5+
 
-[![NPM version][npm-image]][npm-url]
-
 With this module you can:
 - implement an expansible header that stretches when pulling the page down
 - auto-hide the page header when scrolling down
+
+[![NPM version][npm-image]][npm-url]
 
 ### 🔥 ..Also works with Supertabs 🔥
 
@@ -195,5 +195,5 @@ As for the `<ion-content>` elements in each of the tabs give them the `hidenav-c
 **PS**.: as mentioned in the beginning, you should not use both methods (Part1 and Part2) together on one page. It was never tested and is not intended to be used.
 
 [npm-url]: https://npmjs.org/package/@almothafar/ionic-hidenav
-[npm-image]: https://img.shields.io/badge/npm-1.0.0-green.svg
+[npm-image]: https://img.shields.io/badge/npm-5.0.0-green.svg
  
