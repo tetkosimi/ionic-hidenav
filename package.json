@@ -1,14 +1,14 @@
 {
   "name": "@almothafar/ionic-hidenav",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "scripts": {
     "build": "ng-packagr -p package.json",
     "build:prod": "rimraf dist && ng build ionic-hidenav --prod",
     "publish": "cd dist/hidenav/ && npm publish --access=public"
   },
   "peerDependencies": {
-    "@angular/common": "latest",
-    "@angular/core": "latest",
+    "@angular/common": "^11.1.0",
+    "@angular/core": "^11.1.0",
     "@ionic/angular": "^5.5.2"
   },
   "repository": {
