@@ -7,9 +7,9 @@
     "publish": "cd dist/hidenav/ && npm publish --access=public"
   },
   "peerDependencies": {
-    "@angular/common": "^11.1.0",
-    "@angular/core": "^11.1.0",
-    "@ionic/angular": "^5.5.2"
+    "@angular/common": "^11.2.0",
+    "@angular/core": "^11.2.0",
+    "@ionic/angular": "^5.5.4"
   },
   "repository": {
     "type": "git",
@@ -23,29 +23,29 @@
   },
   "homepage": "https://github.com/almothafar/ionic-hidenav#readme",
   "dependencies": {
-    "jquery": "^3.5.1",
-    "@ionic-super-tabs/angular": "^7.0.8"
+    "@ionic-super-tabs/angular": "^7.0.8",
+    "jquery": "^3.5.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "latest",
     "@angular-devkit/build-ng-packagr": "latest",
     "@angular/cli": "latest",
+    "@angular/common": "latest",
+    "@angular/compiler": "latest",
     "@angular/compiler-cli": "latest",
     "@angular/core": "latest",
-    "@angular/compiler": "latest",
-    "@angular/common": "latest",
     "@angular/forms": "latest",
     "@angular/language-service": "latest",
     "@angular/platform-browser": "latest",
     "@angular/platform-browser-dynamic": "latest",
     "@angular/router": "latest",
-    "@ionic/angular": "^5.5.2",
+    "@ionic/angular": "^5.5.4",
     "codelyzer": "^6.0.1",
-    "ng-packagr": "^11.1.2",
+    "ng-packagr": "^11.2.0",
     "rimraf": "^3.0.2",
     "tsickle": "^0.39.1",
     "tslib": "^2.1.0",
     "tslint": "^6.1.3",
-    "typescript": "~4.0.5"
+    "typescript": "~4.1.5"
   }
 }
