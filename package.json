@@ -1,6 +1,6 @@
 {
   "name": "@almothafar/ionic-hidenav",
-  "version": "6.0.2",
+  "version": "6.1.0",
   "scripts": {
     "build": "ng-packagr -p package.json",
     "build:prod": "rimraf dist && ng build ionic-hidenav --configuration production",
