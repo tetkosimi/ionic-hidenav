@@ -19,7 +19,7 @@ export class HidenavShTabscontentDirective implements AfterViewInit, OnDestroy {
 		this.name = this.globals.requestName();
 		this.contentElem.nativeElement.setAttribute('hidenav-sh-tabscontent', this.name);
 		// eslint-disable-next-line max-len
-		$('hidenav-stretchheader', $(this.contentElem.nativeElement).parents().get().find(itm => $(itm).find('[hidenav-stretchheader]').length)).attribute('hidenav-sh-header', this.name);
+		$('hidenav-stretchheader', $(this.contentElem.nativeElement).parents().get().find(itm => $(itm).find('[hidenav-stretchheader]').length)).attr('hidenav-sh-header', this.name);
 		if (this.name) {
 			if (!this.globals.data[this.name]) {
 				this.globals.data[this.name] = [];

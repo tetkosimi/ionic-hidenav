@@ -1,6 +1,6 @@
 {
   "name": "@almothafar/ionic-hidenav",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "scripts": {
     "build": "ng-packagr -p package.json",
     "build:prod": "rimraf dist && ng build ionic-hidenav --configuration production",
@@ -25,7 +25,7 @@
   "homepage": "https://github.com/almothafar/ionic-hidenav#readme",
   "dependencies": {
     "@ionic-super-tabs/angular": "^7.0.8",
-    "jquery": "^3.6.0"
+    "jquery": "~3.6.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "latest",
