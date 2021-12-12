@@ -129,13 +129,14 @@ export class HidenavShService {
 				supertabsToolbar.style.position = 'absolute';
 				supertabsToolbar.style.transform = 'translate3d(0, ' + this.data[name].shrinkexpandheaderHeight + 'px, 0)';
 				parentElem.style.zIndex = 101;
+				// eslint-disable-next-line max-len
 				this.waitforelemTabs(name, 'this.data[this.data[name].parent].header.nativeElement.scrollHeight', 'this.data[this.data[name].parent].tabscontentElem.nativeElement.querySelector(\'super-tabs-toolbar\').clientHeight', 'proceedShrinkExpandTabs');
 			}
 		}
 	}
 
 	waitforelem(name, evaluate, func) {
-		// tslint:disable-next-line:no-eval
+		// eslint-disable-next-line no-eval
 		const x = eval(evaluate);
 		if (!{x} || x < this.data[name].shrinkexpandheaderHeight) {
 			window.requestAnimationFrame(this.waitforelem.bind(this, name, evaluate, func));
@@ -145,9 +146,9 @@ export class HidenavShService {
 	}
 
 	waitforelemTabs(name, evaluate, evaluate2, func) {
-		// tslint:disable-next-line:no-eval
+		// eslint-disable-next-line no-eval
 		const x = eval(evaluate);
-		// tslint:disable-next-line:no-eval
+		// eslint-disable-next-line no-eval
 		const y = eval(evaluate2);
 		if (!{x} || x < this.data[name].shrinkexpandheaderHeight || !{y} || y === 0) {
 			window.requestAnimationFrame(this.waitforelemTabs.bind(this, name, evaluate, evaluate2, func));
@@ -222,7 +223,9 @@ export class HidenavShService {
 							this.data[name].initExpanded = false;
 						});
 					}
+					// eslint-disable-next-line max-len
 					const height = Math.max(Math.min(this.data[name].shrinkexpandHeight, this.data[name].shrinkexpandHeight - e.detail.scrollTop), this.data[name].shrinkexpandheaderHeight);
+					// eslint-disable-next-line max-len
 					elem.style.transform = 'translate3d(0, ' + -(Math.min((this.data[name].shrinkexpandHeight - this.data[name].shrinkexpandheaderHeight) / 2, e.detail.scrollTop / 2)) + 'px, 0)';
 					parentElem.style.height = height + 'px';
 					const scrollFactor = Math.min(e.detail.scrollTop / (this.data[name].shrinkexpandHeight / 2), 1);
@@ -313,12 +316,16 @@ export class HidenavShService {
 				this.data[name].content.ionScroll.subscribe(e => {
 					if (e.detail.scrollTop === 0) {
 						this.data[name].contentElem.style.paddingTop = 0;
+						// eslint-disable-next-line max-len
 						this.data[name].contentEl.nativeElement.style.height = (this.data[name].contentHeight - (this.data[name].shrinkexpandHeight + supertabsToolbar.clientHeight)) + 'px';
+						// eslint-disable-next-line max-len
 						this.data[name].contentEl.nativeElement.style.top = (this.data[name].shrinkexpandHeight + supertabsToolbar.clientHeight + this.data[name].paddingTop) + 'px';
+						// eslint-disable-next-line max-len
 						elemPad.style.height = (this.data[name].elemPadHeight + this.data[name].shrinkexpandHeight + this.data[name].paddingTop + supertabsToolbar.clientHeight) + 'px';
 					} else {
 						const s = e.detail.scrollTop;
 						this.data[name].contentElem.style.paddingTop = (this.data[name].shrinkexpandHeight + supertabsToolbar.clientHeight + this.data[name].paddingTop) + 'px';
+						// eslint-disable-next-line max-len
 						this.data[name].contentEl.nativeElement.style.height = (this.data[name].contentHeight + this.data[name].shrinkexpandHeight + supertabsToolbar.clientHeight) + 'px';
 						this.data[name].contentEl.nativeElement.style.top = null;
 						this.data[name].contentElem.scrollTop = s;
@@ -329,7 +336,9 @@ export class HidenavShService {
 							this.data[name].initExpanded = false;
 						});
 					}
+					// eslint-disable-next-line max-len
 					const height = Math.max(Math.min(this.data[name].shrinkexpandHeight, this.data[name].shrinkexpandHeight - e.detail.scrollTop), this.data[name].shrinkexpandheaderHeight);
+					// eslint-disable-next-line max-len
 					elem.style.transform = 'translate3d(0, ' + -(Math.min((this.data[name].shrinkexpandHeight - this.data[name].shrinkexpandheaderHeight) / 2, e.detail.scrollTop / 2)) + 'px, 0)';
 					parentElem.style.height = height + 'px';
 					const scrollFactor = Math.min(e.detail.scrollTop / (this.data[name].shrinkexpandHeight / 2), 1);
@@ -361,8 +370,11 @@ export class HidenavShService {
 					setTimeout(() => {
 						if (this.data[name].contentElem.scrollTop === 0) {
 							this.data[name].contentElem.style.paddingTop = 0;
+							// eslint-disable-next-line max-len
 							this.data[name].contentEl.nativeElement.style.height = (this.data[name].contentHeight - (this.data[name].shrinkexpandHeight + supertabsToolbar.clientHeight)) + 'px';
+							// eslint-disable-next-line max-len
 							this.data[name].contentEl.nativeElement.style.top = (this.data[name].shrinkexpandHeight + supertabsToolbar.clientHeight + this.data[name].paddingTop) + 'px';
+							// eslint-disable-next-line max-len
 							elemPad.style.height = (this.data[name].elemPadHeight + this.data[name].shrinkexpandHeight + this.data[name].paddingTop + supertabsToolbar.clientHeight) + 'px';
 						}
 					}, 10);
@@ -394,6 +406,7 @@ export class HidenavShService {
 				(this.data[name].shrinkexpandHeight - this.data[name].shrinkexpandheaderHeight) / 2, this.data[name].contentElem.scrollTop / 2)
 			) + 'px, 0)';
 			parentElem.style.height = height + 'px';
+			// eslint-disable-next-line max-len
 			overlay.style.setProperty('--opacity', this.data[name].opacityFactor / 10 * Math.min(this.data[name].contentElem.scrollTop / (this.data[name].shrinkexpandHeight / 2), 1));
 			elem.style.setProperty('--blur', (this.data[name].blurFactor * Math.min(this.data[name].contentElem.scrollTop / (this.data[name].shrinkexpandHeight / 2), 1)) + 'px');
 			supertabsToolbar.style.transform = 'translate3d(0, ' + height + 'px, 0)';

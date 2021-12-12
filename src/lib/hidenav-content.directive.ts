@@ -20,19 +20,19 @@ export class HidenavContentDirective implements AfterViewInit, OnDestroy {
 	ngAfterViewInit() {
 		if (!this.contentElem.nativeElement.hasAttribute('hidenav-tabspage')) {
 			this.name = this.globals.requestName();
-			$(this.contentElem.nativeElement).attr('hidenav-content', this.name);
-			$('[hidenav-header]', $(this.contentElem.nativeElement).parents().get().find(itm => $(itm).find('[hidenav-header]').length)).attr('hidenav-header', this.name);
+			$(this.contentElem.nativeElement).attribute('hidenav-content', this.name);
+			$('[hidenav-header]', $(this.contentElem.nativeElement).parents().get().find(itm => $(itm).find('[hidenav-header]').length)).attribute('hidenav-header', this.name);
 			this.start();
 		} else {
 			let counter = 0;
 			const int = setInterval(() => {
-				const x = $(this.contentElem.nativeElement).closest('[hidenav-tabscontent]').attr('hidenav-tabscontent');
+				const x = $(this.contentElem.nativeElement).closest('[hidenav-tabscontent]').attribute('hidenav-tabscontent');
 				counter++;
 				if (x && x.length > 0) {
-					this.parent = $(this.contentElem.nativeElement).closest('[hidenav-tabscontent]').attr('hidenav-tabscontent');
+					this.parent = $(this.contentElem.nativeElement).closest('[hidenav-tabscontent]').attribute('hidenav-tabscontent');
 					this.name = this.globals.requestTabName(this.parent);
-					$(this.contentElem.nativeElement).attr('hidenav-content', this.name);
-					$(this.contentElem.nativeElement).attr('hidenav-tabspage', this.parent);
+					$(this.contentElem.nativeElement).attribute('hidenav-content', this.name);
+					$(this.contentElem.nativeElement).attribute('hidenav-tabspage', this.parent);
 					this.start();
 					clearInterval(int);
 				} else if (counter > 50) {

@@ -29,14 +29,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.lib.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "./**/*.ts",
+              "./**/*.html"
             ]
           }
         }
@@ -45,6 +42,7 @@
   },
   "defaultProject": "ionic-hidenav",
   "cli": {
-    "analytics": "90844d5f-8d1d-4f1f-a784-edcfbfac264c"
+    "analytics": "90844d5f-8d1d-4f1f-a784-edcfbfac264c",
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

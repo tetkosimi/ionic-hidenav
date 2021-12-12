@@ -20,19 +20,20 @@ export class HidenavShContentDirective implements AfterViewInit, OnDestroy {
 	ngAfterViewInit() {
 		if (!this.contentElem.nativeElement.hasAttribute('hidenav-tabspage')) {
 			this.name = this.globals.requestName();
-			$(this.contentElem.nativeElement).attr('hidenav-sh-content', this.name);
-			$('hidenav-stretchheader', $(this.contentElem.nativeElement).parents().get().find(itm => $(itm).find('[hidenav-header]').length)).attr('hidenav-sh-header', this.name);
+			$(this.contentElem.nativeElement).attribute('hidenav-sh-content', this.name);
+			$('hidenav-stretchheader', $(this.contentElem.nativeElement).parents()
+				.get().find(itm => $(itm).find('[hidenav-header]').length)).attribute('hidenav-sh-header', this.name);
 			this.start();
 		} else {
 			let counter = 0;
 			const int = setInterval(() => {
-				const x = $(this.contentElem.nativeElement).closest('[hidenav-sh-tabscontent]').attr('hidenav-sh-tabscontent');
+				const x = $(this.contentElem.nativeElement).closest('[hidenav-sh-tabscontent]').attribute('hidenav-sh-tabscontent');
 				counter++;
 				if (x && x.length > 0) {
-					this.parent = $(this.contentElem.nativeElement).closest('[hidenav-sh-tabscontent]').attr('hidenav-sh-tabscontent');
+					this.parent = $(this.contentElem.nativeElement).closest('[hidenav-sh-tabscontent]').attribute('hidenav-sh-tabscontent');
 					this.name = this.globals.requestTabName(this.parent);
-					$(this.contentElem.nativeElement).attr('hidenav-sh-content', this.name);
-					$(this.contentElem.nativeElement).attr('hidenav-tabspage', this.parent);
+					$(this.contentElem.nativeElement).attribute('hidenav-sh-content', this.name);
+					$(this.contentElem.nativeElement).attribute('hidenav-tabspage', this.parent);
 					this.start();
 					clearInterval(int);
 				} else if (counter > 50) {

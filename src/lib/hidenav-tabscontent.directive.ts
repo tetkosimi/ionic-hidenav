@@ -20,7 +20,7 @@ export class HidenavTabscontentDirective implements AfterViewInit, OnDestroy {
 	ngAfterViewInit() {
 		this.name = this.globals.requestName();
 		this.contentElem.nativeElement.setAttribute('hidenav-tabscontent', this.name);
-		$('[hidenav-header]', $(this.contentElem.nativeElement).parents().get().find(itm => $(itm).find('[hidenav-header]').length)).attr('hidenav-header', this.name);
+		$('[hidenav-header]', $(this.contentElem.nativeElement).parents().get().find(itm => $(itm).find('[hidenav-header]').length)).attribute('hidenav-header', this.name);
 		if (this.name) {
 			if (!this.globals.data[this.name]) {
 				this.globals.data[this.name] = [];
