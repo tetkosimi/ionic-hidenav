@@ -16,17 +16,13 @@ import { StretchHeaderService } from "./stretchheader.service";
   selector: "stretchheader",
   template: `
     <style>
-      :host {
-        --border-color-rgb: 90, 94, 99;
-        --overlay-background: black;
-      }
       .overlay {
         position: absolute;
         height: inherit;
         width: inherit;
         z-index: 101;
         pointer-events: none;
-        background-color: var(--overlay-background);
+        background-color: var(--overlay-background, black);
         filter: opacity(0);
         --opacity: 0;
       }
@@ -43,7 +39,7 @@ import { StretchHeaderService } from "./stretchheader.service";
       }
 
       :host.ios {
-        border-bottom: 1px solid rgba(var(--border-color-rgb), var(--opacity));
+        border-bottom: 1px solid rgba(var(--border-color-rgb, 90, 94, 99), var(--opacity));
       }
     </style>
     <div class="overlay"></div>
