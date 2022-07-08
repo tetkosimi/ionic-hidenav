@@ -21,15 +21,6 @@ export class StretchHeaderService {
     return name;
   }
 
-  requestTabName(name) {
-    if (!this.tabnames[name]) {
-      this.tabnames[name] = [];
-    }
-    const tabname = name + "tab" + this.tabnames[name].length;
-    this.tabnames[name].push(tabname);
-    return tabname;
-  }
-
   initiate(name) {
     const names = [];
     for (const key in this.data) {
@@ -97,7 +88,6 @@ export class StretchHeaderService {
           parentElem.getAttribute("opacity-factor"),
           10
         );
-        this.data[name].opacityColor = parentElem.getAttribute("opacity-color");
         this.data[name].blurFactor = parseInt(
           parentElem.getAttribute("blur-factor"),
           10
@@ -142,7 +132,6 @@ export class StretchHeaderService {
           parentElem.getAttribute("opacity-factor"),
           10
         );
-        this.data[name].opacityColor = elem.getAttribute("opacity-color");
         this.data[name].blurFactor = parseInt(
           parentElem.getAttribute("blur-factor"),
           10
@@ -176,11 +165,7 @@ export class StretchHeaderService {
     const elem = this.data[name].header.nativeElement;
     const overlay =
       this.data[name].header.nativeElement.parentNode.querySelector(".overlay");
-    if (this.data[name].opacityColor) {
-      overlay.style.setProperty("--background", this.data[name].opacityColor);
-    }
     if (this.data[name].opacityFactor > 0) {
-      // angular decides that opacity is bad and changes it to alpha which doesn't work lol
       overlay.style.setProperty("filter", "opacity(var(--opacity))");
       overlay.style.setProperty(
         "--opacity",
@@ -211,28 +196,6 @@ export class StretchHeaderService {
       );
       this.data[name].contentElem.style.paddingTop =
         this.data[name].shrinkexpandHeight + this.data[name].paddingTop + "px";
-      // this.data[name].contentElem.style.marginTop = this.data[name].shrinkexpandheaderHeight + 'px';
-      const elemPad = document.createElement("div");
-      elemPad.style.cssText = "background:rgba(0,0,0,0)";
-      const x =
-        this.data[name].contentElem.scrollHeight +
-        (this.data[name].shrinkexpandHeight -
-          this.data[name].shrinkexpandheaderHeight);
-      // experimental height
-      elemPad.style.height = x + "px";
-      setTimeout(() => {
-        // check if height is still ok and adjust if not
-        this.data[name].elemPadHeight = Math.max(
-          0,
-          x -
-            (this.data[name].contentElem.scrollHeight -
-              this.data[name].contentElem.offsetHeight) +
-            (this.data[name].shrinkexpandHeight -
-              this.data[name].shrinkexpandheaderHeight)
-        );
-        elemPad.style.height = this.data[name].elemPadHeight + "px";
-      }, 100);
-      this.data[name].contentElem.appendChild(elemPad);
       const scrollDist = this.data[name].initExpanded
         ? 2
         : this.data[name].shrinkexpandHeight -
@@ -242,40 +205,6 @@ export class StretchHeaderService {
           this.data[name].contentEl.nativeElement.clientHeight;
         this.data[name].content.scrollEvents = true;
         this.data[name].content.ionScroll.subscribe((e) => {
-          if (e.detail.scrollTop === 0) {
-            this.data[name].contentElem.style.paddingTop = 0;
-            this.data[name].contentEl.nativeElement.style.height =
-              this.data[name].contentHeight -
-              this.data[name].shrinkexpandHeight +
-              "px";
-            this.data[name].contentEl.nativeElement.style.top =
-              this.data[name].shrinkexpandHeight +
-              this.data[name].paddingTop +
-              "px";
-            elemPad.style.height =
-              this.data[name].elemPadHeight +
-              this.data[name].shrinkexpandHeight +
-              this.data[name].paddingTop +
-              "px";
-          } else {
-            const s = e.detail.scrollTop;
-            this.data[name].contentElem.style.paddingTop =
-              this.data[name].shrinkexpandHeight +
-              this.data[name].paddingTop +
-              "px";
-            this.data[name].contentEl.nativeElement.style.height =
-              this.data[name].contentHeight +
-              this.data[name].shrinkexpandHeight +
-              "px";
-            this.data[name].contentEl.nativeElement.style.top = null;
-            this.data[name].contentElem.scrollTop = s;
-            elemPad.style.height = this.data[name].elemPadHeight + "px";
-          }
-          if (this.data[name].initExpanded) {
-            this.data[name].content.scrollToPoint(0, 0, 0).then(() => {
-              this.data[name].initExpanded = false;
-            });
-          }
           if (this.data[name].initExpanded) {
             this.data[name].content.scrollToPoint(0, 0, 0).then(() => {
               this.data[name].initExpanded = false;
@@ -290,11 +219,14 @@ export class StretchHeaderService {
           );
           elem.style.transform =
             "translate3d(0, " +
-            -Math.min(
-              (this.data[name].shrinkexpandHeight -
-                this.data[name].shrinkexpandheaderHeight) /
-                2,
-              e.detail.scrollTop / 2
+            -Math.max(
+              Math.min(
+                (this.data[name].shrinkexpandHeight -
+                  this.data[name].shrinkexpandheaderHeight) /
+                  2,
+                e.detail.scrollTop / 2
+              ),
+              0
             ) +
             "px, 0)";
           parentElem.style.height = height + "px";
@@ -330,210 +262,6 @@ export class StretchHeaderService {
             });
           }
           this.data[name].lastscroll = height;
-          //
-        });
-        // catch the last tick
-        this.data[name].content.ionScrollEnd.subscribe(() => {
-          setTimeout(() => {
-            if (this.data[name].contentElem.scrollTop === 0) {
-              this.data[name].contentElem.style.paddingTop = 0;
-              this.data[name].contentEl.nativeElement.style.height =
-                this.data[name].contentHeight -
-                this.data[name].shrinkexpandHeight +
-                "px";
-              this.data[name].contentEl.nativeElement.style.top =
-                this.data[name].shrinkexpandHeight +
-                this.data[name].paddingTop +
-                "px";
-              elemPad.style.height =
-                this.data[name].elemPadHeight +
-                this.data[name].shrinkexpandHeight +
-                this.data[name].paddingTop +
-                "px";
-            }
-          }, 10);
-        });
-      });
-    });
-  }
-
-  proceedShrinkExpandTabs(name) {
-    const parent = this.data[name].parent;
-    const parentElem = this.data[parent].header.nativeElement.parentNode;
-    const elem = this.data[parent].header.nativeElement;
-    const overlay =
-      this.data[parent].header.nativeElement.parentNode.querySelector(
-        ".overlay"
-      );
-    if (this.data[name].opacityColor) {
-      overlay.style.setProperty("--background", this.data[name].opacityColor);
-    }
-    if (this.data[name].opacityFactor > 0) {
-      overlay.style.setProperty("filter", "opacity(var(--opacity))");
-      overlay.style.setProperty(
-        "--opacity",
-        this.data[name].opacityFactor / 10
-      );
-    }
-    if (this.data[name].blurFactor > 0) {
-      elem.style.setProperty("filter", "blur(var(--blur))");
-      elem.style.setProperty("--blur", this.data[name].blurFactor / 10);
-    }
-    this.data[name].shrinkexpandHeight =
-      this.data[name].shrinkexpandheaderHeight;
-    this.data[name].shrinkexpandHeight = elem.scrollHeight;
-    elem.style.transform =
-      "translate3d(0, " +
-      -(
-        (this.data[name].shrinkexpandHeight -
-          this.data[name].shrinkexpandheaderHeight) /
-        2
-      ) +
-      "px, 0)";
-    this.data[name].content.getScrollElement().then((res) => {
-      this.data[name].contentElem = res;
-      this.data[name].paddingTop = parseInt(
-        window.getComputedStyle(this.data[name].contentElem)["padding-top"],
-        10
-      );
-      this.data[name].contentElem.style.paddingTop =
-        this.data[name].shrinkexpandHeight + this.data[name].paddingTop + "px";
-      // this.data[name].contentElem.style.marginTop = this.data[name].shrinkexpandheaderHeight + 'px';
-      const elemPad = document.createElement("div");
-      elemPad.style.cssText = "background:rgba(0,0,0,0)";
-      const x =
-        this.data[name].contentElem.scrollHeight +
-        (this.data[name].shrinkexpandHeight -
-          this.data[name].shrinkexpandheaderHeight);
-      // experimental height
-      elemPad.style.height = x + "px";
-      setTimeout(() => {
-        // check if height is still ok and adjust if not
-        this.data[name].elemPadHeight = Math.max(
-          0,
-          x -
-            (this.data[name].contentElem.scrollHeight -
-              this.data[name].contentElem.offsetHeight) +
-            (this.data[name].shrinkexpandHeight -
-              this.data[name].shrinkexpandheaderHeight)
-        );
-        elemPad.style.height = this.data[name].elemPadHeight + "px";
-      }, 100);
-      this.data[name].contentElem.appendChild(elemPad);
-      const scrollDist = this.data[name].initExpanded
-        ? 2
-        : this.data[name].shrinkexpandHeight -
-          this.data[name].shrinkexpandheaderHeight;
-      this.data[name].content.scrollByPoint(0, scrollDist, 0).then(() => {
-        this.data[name].contentHeight =
-          this.data[name].contentEl.nativeElement.clientHeight;
-        this.data[name].content.scrollEvents = true;
-        this.data[name].content.ionScroll.subscribe((e) => {
-          if (e.detail.scrollTop === 0) {
-            this.data[name].contentElem.style.paddingTop = 0;
-            this.data[name].contentEl.nativeElement.style.height =
-              this.data[name].contentHeight -
-              this.data[name].shrinkexpandHeight +
-              "px";
-            this.data[name].contentEl.nativeElement.style.top =
-              this.data[name].shrinkexpandHeight +
-              this.data[name].paddingTop +
-              "px";
-            elemPad.style.height =
-              this.data[name].elemPadHeight +
-              this.data[name].shrinkexpandHeight +
-              this.data[name].paddingTop +
-              "px";
-          } else {
-            const s = e.detail.scrollTop;
-            this.data[name].contentElem.style.paddingTop =
-              this.data[name].shrinkexpandHeight +
-              this.data[name].paddingTop +
-              "px";
-            this.data[name].contentEl.nativeElement.style.height =
-              this.data[name].contentHeight +
-              this.data[name].shrinkexpandHeight +
-              "px";
-            this.data[name].contentEl.nativeElement.style.top = null;
-            this.data[name].contentElem.scrollTop = s;
-            elemPad.style.height = this.data[name].elemPadHeight + "px";
-          }
-          if (this.data[name].initExpanded) {
-            this.data[name].content.scrollToPoint(0, 0, 0).then(() => {
-              this.data[name].initExpanded = false;
-            });
-          }
-          const height = Math.max(
-            Math.min(
-              this.data[name].shrinkexpandHeight,
-              this.data[name].shrinkexpandHeight - e.detail.scrollTop
-            ),
-            this.data[name].shrinkexpandheaderHeight
-          );
-          elem.style.transform =
-            "translate3d(0, " +
-            -Math.min(
-              (this.data[name].shrinkexpandHeight -
-                this.data[name].shrinkexpandheaderHeight) /
-                2,
-              e.detail.scrollTop / 2
-            ) +
-            "px, 0)";
-          parentElem.style.height = height + "px";
-          const scrollFactor = Math.min(
-            e.detail.scrollTop / (this.data[name].shrinkexpandHeight / 2),
-            1
-          );
-          if (scrollFactor >= 0) {
-            const currentValOpacity =
-              overlay.style.getPropertyValue("--opacity");
-            const newValOpacity =
-              (this.data[name].opacityFactor / 10) * scrollFactor;
-            if (currentValOpacity !== newValOpacity) {
-              overlay.style.setProperty("--opacity", newValOpacity);
-            }
-            const currentValBlur = elem.style.getPropertyValue("--blur");
-            const newValBlur = this.data[name].blurFactor * scrollFactor + "px";
-            if (currentValBlur !== newValBlur) {
-              elem.style.setProperty("--blur", newValBlur);
-            }
-          }
-          // event emitter
-          setTimeout(() => {
-            this.data[name].guardEvents = false;
-          }, 10);
-          if (
-            this.data[name].lastscroll !== height &&
-            !this.data[name].guardEvents
-          ) {
-            this.scroll.next({
-              name: this.data[name].parent ? this.data[name].parent : name,
-              height,
-            });
-          }
-          this.data[name].lastscroll = height;
-          //
-        });
-        // catch the last tick
-        this.data[name].content.ionScrollEnd.subscribe(() => {
-          setTimeout(() => {
-            if (this.data[name].contentElem.scrollTop === 0) {
-              this.data[name].contentElem.style.paddingTop = 0;
-              this.data[name].contentEl.nativeElement.style.height =
-                this.data[name].contentHeight -
-                this.data[name].shrinkexpandHeight +
-                "px";
-              this.data[name].contentEl.nativeElement.style.top =
-                this.data[name].shrinkexpandHeight +
-                this.data[name].paddingTop +
-                "px";
-              elemPad.style.height =
-                this.data[name].elemPadHeight +
-                this.data[name].shrinkexpandHeight +
-                this.data[name].paddingTop +
-                "px";
-            }
-          }, 10);
         });
       });
     });

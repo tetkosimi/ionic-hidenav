@@ -1,7 +1,6 @@
 {
   "name": "@tetkosimi/ionic-stretchheader",
-  "version": "8.0.5",
-  "private": true, 
+  "version": "8.0.12",
   "scripts": {
     "build": "ng-packagr -p package.json",
     "build:prod": "rimraf dist && ng build ionic-stretchheader --configuration production",

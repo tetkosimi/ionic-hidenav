@@ -16,6 +16,7 @@ export class StretchHeaderContentDirective implements AfterViewInit, OnDestroy {
 	ngAfterViewInit() {
 			this.name = this.globals.requestName();
 			this.contentElem.nativeElement.setAttribute('stretchheader-content',this.name);
+			this.contentElem.nativeElement.parentElement.querySelector('stretchheader').setAttribute('stretchheader-header',this.name);
 			this.start();
 	}
 
