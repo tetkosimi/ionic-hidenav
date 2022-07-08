@@ -1,21 +1,23 @@
 import { AfterViewInit, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output } from '@angular/core';
-import { HidenavShService } from './hidenav-sh-service.service';
+import { StretchHeaderService } from './stretchheader.service';
 
 @Component({
-    selector: 'hidenav-stretchheader',
+    selector: 'stretchheader',
     template: `
         <style>
+            :host {
+                --border-color-rgb: 90, 94, 99;
+                --background: black;
+            }
             .overlay {
                 position: absolute;
                 height: inherit;
                 width: inherit;
                 z-index: 101;
                 pointer-events: none;
-                /*opacity: var(--opacity);*/
-                background: var(--color);
+                background-color: var(--background);
                 filter: opacity(0);
                 --opacity: 0;
-                --color: black;
             }
 
             :host {
@@ -30,45 +32,38 @@ import { HidenavShService } from './hidenav-sh-service.service';
             }
 
             :host.ios {
-                border-bottom: 1px solid #5a5e63;
+                border-bottom: 1px solid rgba(var(--border-color-rgb), var(--opacity));
             }
         </style>
         <div class="overlay"></div>
         <ng-content></ng-content>
     `
 })
-export class HidenavStretchheaderComponent implements OnDestroy, AfterViewInit {
+export class StretchHeaderComponent implements OnDestroy, AfterViewInit {
     @ContentChild('shrinkexpand', {read: ElementRef}) header: ElementRef;
     @ContentChildren('static', {read: ElementRef}) static: any;
-    @HostBinding('class') class: any;
-    name: any;
-    @Input('no-border') noBorder: string;
-    @Input('header-height') headerHeight: any;
-    @Input('init-expanded') initExpanded: any;
-    @Input('opacity-color') opacityColor: any;
-    @Input('opacity-factor') opacityFactor: any;
-    @Input('blur-factor') blurFactor: any;
-    @Input('preserve-header') preserveHeader: any;
+
+    @Input() border: boolean = true;
+    @Input() headerHeight: string | number;
+    @Input() initExpanded: boolean;
+    @Input() opacityColor: string;
+    @Input() opacityFactor: number;
+    @Input() blurFactor: number;
+
+    @HostBinding('class') class: string;
+    name: string;
 
     // eslint-disable-next-line @angular-eslint/no-output-native
     @Output() scroll: EventEmitter<number> = new EventEmitter<number>();
 
-    constructor(public el: ElementRef, public globals: HidenavShService) {
+    constructor(public el: ElementRef, public globals: StretchHeaderService) {
     }
 
     ngAfterViewInit() {
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach(() => {
-                if (this.el.nativeElement.getAttribute('hidenav-sh-header').length > 0) {
-                    this.name = this.el.nativeElement.getAttribute('hidenav-sh-header');
-                    this.start();
-                    observer.disconnect();
-                }
-            });
-        });
-        observer.observe(this.el.nativeElement, {
-            attributes: true,
-        });
+        if (this.el.nativeElement.getAttribute('stretchheader-header').length > 0) {
+            this.name = this.el.nativeElement.getAttribute('stretchheader-header');
+            this.start();
+        }
     }
 
     start() {
@@ -84,7 +79,7 @@ export class HidenavStretchheaderComponent implements OnDestroy, AfterViewInit {
                     this.scroll.emit(res.height);
                 }
             });
-            if (this.noBorder !== 'true') {
+            if (!!this.border) {
                 const mode = document.querySelector('html').getAttribute('mode');
                 setTimeout(() => {
                     if (!this.class) {

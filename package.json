@@ -1,10 +1,11 @@
 {
-  "name": "@almothafar/ionic-hidenav",
-  "version": "7.0.1",
+  "name": "@tetkosimi/ionic-stretchheader",
+  "version": "8.0.5",
+  "private": true, 
   "scripts": {
     "build": "ng-packagr -p package.json",
-    "build:prod": "rimraf dist && ng build ionic-hidenav --configuration production",
-    "publish": "cd dist/hidenav/ && npm publish --access=public",
+    "build:prod": "rimraf dist && ng build ionic-stretchheader --configuration production",
+    "publish": "cd dist/stretchheader/ && npm publish --access=public",
     "lint": "ng lint"
   },
   "peerDependencies": {
@@ -14,19 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/almothafar/ionic-hidenav.git"
+    "url": "git+https://github.com/tetkosimi/ionic-stretchheader.git"
   },
   "keywords": [],
   "author": "Al-Mothafar Al-Hasan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/almothafar/ionic-hidenav/issues"
+    "url": "https://github.com/tetkosimi/ionic-stretchheader/issues"
   },
-  "homepage": "https://github.com/almothafar/ionic-hidenav#readme",
-  "dependencies": {
-    "@ionic-super-tabs/angular": "^7.0.8",
-    "jquery": "~3.6.0"
-  },
+  "homepage": "https://github.com/tetkosimi/ionic-stretchheader#readme",
   "devDependencies": {
     "@angular-devkit/build-angular": "latest",
     "@angular-eslint/builder": "13.0.1",

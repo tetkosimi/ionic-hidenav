@@ -3,11 +3,11 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ionic-hidenav": {
+    "ionic-stretchheader": {
       "projectType": "library",
       "root": ".",
       "sourceRoot": "src",
-      "prefix": "almothafar",
+      "prefix": "tetkosimi",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
@@ -17,7 +17,7 @@
           },
           "configurations": {
             "production": {
-              "tsConfig": "tsconfig.lib.prod.json"
+              "tsConfig": "tsconfig.lib.json"
             }
           }
         },
@@ -40,7 +40,7 @@
       }
     }
   },
-  "defaultProject": "ionic-hidenav",
+  "defaultProject": "ionic-stretchheader",
   "cli": {
     "analytics": "90844d5f-8d1d-4f1f-a784-edcfbfac264c",
     "defaultCollection": "@angular-eslint/schematics"
