@@ -188,19 +188,17 @@ export class StretchHeaderService {
       this.data[name].contentElem.style.paddingTop =
         this.data[name].shrinkexpandHeight + this.data[name].paddingTop + "px";
       const scrollDist = this.data[name].initExpanded
-        ? 2
+        ? 0
         : this.data[name].shrinkexpandHeight -
           this.data[name].shrinkexpandheaderHeight;
       this.data[name].content.scrollByPoint(0, scrollDist, 0).then(() => {
         this.data[name].contentHeight =
           this.data[name].contentEl.nativeElement.clientHeight;
 
-        if (this.data[name].initExpanded) {
-          this.data[name].content.scrollToPoint(0, 0, 0).then(() => {
-            this.data[name].initExpanded = false;
-          });
-        }
+        // Set initial state
+        this.onScroll(null, name, elem, parentElem, overlay);
 
+        // Subscribe to scroll change
         this.data[name].content.ionScroll.subscribe((e) =>
           this.onScroll(e, name, elem, parentElem, overlay)
         );
@@ -218,7 +216,7 @@ export class StretchHeaderService {
     const height = Math.max(
       Math.min(
         this.data[name].shrinkexpandHeight,
-        this.data[name].shrinkexpandHeight - e.detail.scrollTop
+        this.data[name].shrinkexpandHeight - (e?.detail?.scrollTop || 0)
       ),
       this.data[name].shrinkexpandheaderHeight
     );
@@ -229,14 +227,14 @@ export class StretchHeaderService {
           (this.data[name].shrinkexpandHeight -
             this.data[name].shrinkexpandheaderHeight) /
             2,
-          e.detail.scrollTop / 2
+          (e?.detail?.scrollTop || 0) / 2
         ),
         0
       ) +
       "px, 0)";
     parentElem.style.height = height + "px";
     const scrollFactor = Math.min(
-      e.detail.scrollTop / (this.data[name].shrinkexpandHeight / 2),
+      (e?.detail?.scrollTop || 0) / (this.data[name].shrinkexpandHeight / 2),
       1
     );
     if (scrollFactor >= 0) {
