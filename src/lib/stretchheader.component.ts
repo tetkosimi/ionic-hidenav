@@ -33,8 +33,6 @@ import { StretchHeaderService } from "./stretchheader.service";
       }
 
       :host.md {
-        -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.53);
-        -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.53);
         box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.53);
       }
 

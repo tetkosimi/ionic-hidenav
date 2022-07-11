@@ -42,7 +42,6 @@ export class StretchHeaderService {
         (this.data[name] &&
           this.data[name].parent &&
           this.data[this.data[name].parent] &&
-          this.data[this.data[name].parent].tabscontent &&
           this.data[name].content &&
           this.data[this.data[name].parent].header) ||
         (!this.data[name].parent &&
@@ -52,16 +51,53 @@ export class StretchHeaderService {
     ) {
       return false;
     }
+
     const parent = this.data[name].parent;
     const content = this.data[name].content;
-    if (!this.data[name].lastscroll) {
-      this.data[name].lastscroll = 0;
-    }
-    if (!this.data[name].guardEvents) {
-      this.data[name].guardEvents = true;
-    }
     content.scrollEvents = true;
-    if (!parent) {
+
+    const notchHeight = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue(
+        "--ion-safe-area-top"
+      ),
+      10
+    );
+
+    if (!!parent) {
+      const header = this.data[parent].header;
+      if (this.data[parent].static) {
+        this.data[parent].static.forEach((el) => {
+          el.nativeElement.style.position = "absolute";
+          el.nativeElement.style.zIndex = 102;
+        });
+      }
+
+      if (!!header) {
+        const parentElem = header.nativeElement.parentNode;
+        const elem = header.nativeElement;
+        if (parentElem.getAttribute("init-expanded") === "true") {
+          this.data[name].initExpanded = true;
+        }
+        this.data[name].shrinkexpandheaderHeight =
+          parseInt(parentElem.getAttribute("header-height"), 10) + notchHeight;
+        this.data[name].opacityFactor = parseInt(
+          parentElem.getAttribute("opacity-factor"),
+          10
+        );
+        this.data[name].blurFactor = parseInt(
+          parentElem.getAttribute("blur-factor"),
+          10
+        );
+        parentElem.style.height =
+          this.data[name].shrinkexpandheaderHeight + "px";
+        parentElem.style.overflow = "hidden";
+        parentElem.style.position = "absolute";
+        elem.style.position = "absolute";
+        parentElem.style.width = "100%";
+        elem.style.width = "100%";
+        parentElem.style.zIndex = 101;
+      }
+    } else {
       const header = this.data[name].header;
       if (this.data[name].static) {
         this.data[name].static.forEach((el) => {
@@ -70,18 +106,13 @@ export class StretchHeaderService {
         });
       }
 
-      if (header) {
+      if (!!header) {
         const parentElem = header.nativeElement.parentNode;
         const elem = header.nativeElement;
         if (parentElem.getAttribute("init-expanded") === "true") {
           this.data[name].initExpanded = true;
         }
-        const notchHeight = parseInt(
-          getComputedStyle(document.documentElement).getPropertyValue(
-            "--ion-safe-area-top"
-          ),
-          10
-        );
+
         this.data[name].shrinkexpandheaderHeight =
           parseInt(parentElem.getAttribute("header-height"), 10) + notchHeight;
         this.data[name].opacityFactor = parseInt(
@@ -104,46 +135,6 @@ export class StretchHeaderService {
           "this.data[name].header.nativeElement.scrollHeight",
           "proceedShrinkExpand"
         );
-      }
-    } else if (parent) {
-      const header = this.data[parent].header;
-      if (this.data[parent].static) {
-        this.data[parent].static.forEach((el) => {
-          el.nativeElement.style.position = "absolute";
-          el.nativeElement.style.zIndex = 102;
-        });
-      }
-
-      if (header) {
-        const parentElem = header.nativeElement.parentNode;
-        const elem = header.nativeElement;
-        if (parentElem.getAttribute("init-expanded") === "true") {
-          this.data[name].initExpanded = true;
-        }
-        const notchHeight = parseInt(
-          getComputedStyle(document.documentElement).getPropertyValue(
-            "--ion-safe-area-top"
-          ),
-          10
-        );
-        this.data[name].shrinkexpandheaderHeight =
-          parseInt(parentElem.getAttribute("header-height"), 10) + notchHeight;
-        this.data[name].opacityFactor = parseInt(
-          parentElem.getAttribute("opacity-factor"),
-          10
-        );
-        this.data[name].blurFactor = parseInt(
-          parentElem.getAttribute("blur-factor"),
-          10
-        );
-        parentElem.style.height =
-          this.data[name].shrinkexpandheaderHeight + "px";
-        parentElem.style.overflow = "hidden";
-        parentElem.style.position = "absolute";
-        elem.style.position = "absolute";
-        parentElem.style.width = "100%";
-        elem.style.width = "100%";
-        parentElem.style.zIndex = 101;
       }
     }
   }
@@ -203,68 +194,66 @@ export class StretchHeaderService {
       this.data[name].content.scrollByPoint(0, scrollDist, 0).then(() => {
         this.data[name].contentHeight =
           this.data[name].contentEl.nativeElement.clientHeight;
-        this.data[name].content.scrollEvents = true;
-        this.data[name].content.ionScroll.subscribe((e) => {
-          if (this.data[name].initExpanded) {
-            this.data[name].content.scrollToPoint(0, 0, 0).then(() => {
-              this.data[name].initExpanded = false;
-            });
-          }
-          const height = Math.max(
-            Math.min(
-              this.data[name].shrinkexpandHeight,
-              this.data[name].shrinkexpandHeight - e.detail.scrollTop
-            ),
-            this.data[name].shrinkexpandheaderHeight
-          );
-          elem.style.transform =
-            "translate3d(0, " +
-            -Math.max(
-              Math.min(
-                (this.data[name].shrinkexpandHeight -
-                  this.data[name].shrinkexpandheaderHeight) /
-                  2,
-                e.detail.scrollTop / 2
-              ),
-              0
-            ) +
-            "px, 0)";
-          parentElem.style.height = height + "px";
-          const scrollFactor = Math.min(
-            e.detail.scrollTop / (this.data[name].shrinkexpandHeight / 2),
-            1
-          );
-          if (scrollFactor >= 0) {
-            const currentValOpacity =
-              overlay.style.getPropertyValue("--opacity");
-            const newValOpacity =
-              (this.data[name].opacityFactor / 10) * scrollFactor;
-            if (currentValOpacity !== newValOpacity) {
-              overlay.style.setProperty("--opacity", newValOpacity);
-            }
-            const currentValBlur = elem.style.getPropertyValue("--blur");
-            const newValBlur = this.data[name].blurFactor * scrollFactor + "px";
-            if (currentValBlur !== newValBlur) {
-              elem.style.setProperty("--blur", newValBlur);
-            }
-          }
-          // event emitter
-          setTimeout(() => {
-            this.data[name].guardEvents = false;
-          }, 10);
-          if (
-            this.data[name].lastscroll !== height &&
-            !this.data[name].guardEvents
-          ) {
-            this.scroll.next({
-              name: this.data[name].parent ? this.data[name].parent : name,
-              height,
-            });
-          }
-          this.data[name].lastscroll = height;
-        });
+
+        if (this.data[name].initExpanded) {
+          this.data[name].content.scrollToPoint(0, 0, 0).then(() => {
+            this.data[name].initExpanded = false;
+          });
+        }
+
+        this.data[name].content.ionScroll.subscribe((e) =>
+          this.onScroll(e, name, elem, parentElem, overlay)
+        );
       });
     });
+  }
+
+  onScroll(
+    e: any,
+    name: string,
+    elem: HTMLElement,
+    parentElem: HTMLElement,
+    overlay: HTMLElement
+  ) {
+    const height = Math.max(
+      Math.min(
+        this.data[name].shrinkexpandHeight,
+        this.data[name].shrinkexpandHeight - e.detail.scrollTop
+      ),
+      this.data[name].shrinkexpandheaderHeight
+    );
+    elem.style.transform =
+      "translate3d(0, " +
+      -Math.max(
+        Math.min(
+          (this.data[name].shrinkexpandHeight -
+            this.data[name].shrinkexpandheaderHeight) /
+            2,
+          e.detail.scrollTop / 2
+        ),
+        0
+      ) +
+      "px, 0)";
+    parentElem.style.height = height + "px";
+    const scrollFactor = Math.min(
+      e.detail.scrollTop / (this.data[name].shrinkexpandHeight / 2),
+      1
+    );
+    if (scrollFactor >= 0) {
+      const currentValOpacity = parseInt(
+        overlay.style.getPropertyValue("--opacity"),
+        10
+      );
+      const newValOpacity = (this.data[name].opacityFactor / 10) * scrollFactor;
+      if (currentValOpacity !== newValOpacity) {
+        overlay.style.setProperty("--opacity", newValOpacity.toString());
+      }
+      const currentValBlur = elem.style.getPropertyValue("--blur");
+      const newValBlur = this.data[name].blurFactor * scrollFactor + "px";
+      if (currentValBlur !== newValBlur) {
+        elem.style.setProperty("--blur", newValBlur);
+      }
+    }
   }
 
   resetContent(name) {
